@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>Les objets en Java</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Les objets en Java</h1>
+</section>
+
+<section><section id="définir-un-objet" class="title-slide slide level1"><h1>Définir un objet</h1></section><section id="exemple-de-la-classe-point" class="slide level2">
+<h2>Exemple de la classe Point</h2>
+<pre><code>public class Point {
+  double x, y;
+  public Point(double x, double y) {
+    this.x = x;
+    this.y = y;
+  } 
+  public double distance() {
+    return Math.sqrt(x*x + y*y);
+  }
+}</code></pre>
+</section><section id="les-attributs" class="slide level2">
+<h2>Les attributs</h2>
+<p>Ici <strong>x</strong> et <strong>y</strong>. Ce sont les variables internes associées à la classe.</p>
+</section><section id="les-méthodes-classiques" class="slide level2">
+<h2>Les méthodes “classiques”</h2>
+<p>Ici <strong>distance</strong> est une méthode qui ne prend pas d’argument et qui permet de calculer la distance à l’origine du point.</p>
+<ul>
+<li><p><strong>double</strong> réfère ici au type de sortie.</p></li>
+<li><p>Si une fonction ne retourne rien, le type de sortie est <strong>void</strong></p></li>
+<li><p><strong>()</strong> signifie que la fonction ne prend pas d’arguments en entrée.</p></li>
+</ul>
+</section><section id="constructeur" class="slide level2">
+<h2>Constructeur</h2>
+<p>Une classe doit définir un constructeur dont le but est de définir les attributs (l’état) de l’instance. Si elle n’en définit pas, le compilateur définira un <strong>constructeur par défaut</strong> qui initialisera tous les attributs de classe aux valeurs par défaut.</p>
+<p>C’est un choix qui peut prêter à confusion.</p>
+</section><section class="slide level2">
+
+<p>Le constructeur porte toujours le même nom que la classe. Ce cas particulier de méthode <strong>n’a pas de type de sortie</strong> (même pas <em>void</em>). Ici, son prototype est :</p>
+<pre><code>Point(double x, double y)</code></pre>
+<ul>
+<li><p>Le constructeur utilise deux arguments nommés x et y dans le corps de la fonction</p></li>
+<li><p>Il est possible de définir plusieurs constructeurs avec des prototypes différents.</p></li>
+</ul>
+</section><section id="nom-des-variables" class="slide level2">
+<h2>Nom des variables</h2>
+<p>Au sein d’une classe, les attributs peuvent être utilisés directement et font référence à l’instance courante (en général)</p>
+<p>Si au sein d’une méthode, une variable est définie avec un nom identique, c’est la nouvelle variable qui sera associée à ce nom localement.</p>
+<p>Pour référencer à nouveau l’attribut : le mot clé <strong>this</strong></p>
+</section><section class="slide level2">
+
+<p>Voir la différence entre</p>
+<pre><code>public double distance2() {
+    int x = 0 ;
+    int y = x+1 ;
+    return Math.sqrt(x*x + y*y);
+}</code></pre>
+<p>et</p>
+<pre><code>public double distance3(){
+    int x = 0 ;
+    int y = x+1 ;
+    return Math.sqrt(this.x*this.x + this.y*this.y);
+}</code></pre>
+</section><section id="accéder-aux-attributs-et-méthodes-dune-classe" class="slide level2">
+<h2>Accéder aux attributs et méthodes d’une classe</h2>
+<p>Avec l’opérateur “<strong>.</strong>” (lorsque cela est possible)</p>
+<pre><code>// Si p est de classe Point 
+p.x  ; retourne x
+p.distance() ; // retourne la distance à l&#39;origine</code></pre>
+</section><section id="instancier-une-classe" class="slide level2">
+<h2>Instancier une classe</h2>
+<p>Avec le mot clé <strong>New</strong> et l’appel au constructeur</p>
+<pre><code>Point myPoint = new Point() ;</code></pre>
+<p>ou</p>
+<pre><code>Point myPoint,myPoint2 ;
+myPoint = new Points(1,0) ;
+myPoint2 = myPoint ; // Attention, même référence</code></pre>
+</section><section id="règles-de-nommage" class="slide level2">
+<h2>Règles de nommage</h2>
+<ul>
+<li><strong>variables</strong> : commencent par une minuscule puis une majuscule sur les mots suivants accolés
+<ul>
+<li>ex. : x, isFed,…</li>
+</ul></li>
+<li><strong>constantes</strong> : en capitales avec underscore si différents mots
+<ul>
+<li>ex. : PI, ARRAY_SIZE,…</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<ul>
+<li><strong>methodes</strong> : commencent par une minuscule puis une majuscule sur les mots suivants accolés
+<ul>
+<li>ex.: getArea(), isHappy(),…</li>
+</ul></li>
+<li><strong>classes</strong> : commencent par une majuscules puis une majuscule sur les mots suivants accolés
+<ul>
+<li>ex. : Cat, Point, MainClass,…</li>
+</ul></li>
+</ul>
+</section><section id="exercice-fil-rouge" class="slide level2">
+<h2>Exercice fil rouge</h2>
+<p>Dans un nouveau projet, définir les classes <strong>Square</strong>, <strong>Circle</strong> avec des attributs pertinents.</p>
+<p>Y implémenter des méthodes <strong>moveTo</strong>, <strong>translate</strong>, <strong>scale</strong></p>
+<p>S’inspirer de la doc SVG pour déduire une façon adéquate de représentation.</p>
+<p>Ajouter des méthodes de calcul de <strong>bounding box</strong> (retourne un tableau de 4 <strong>double</strong>)</p>
+</section></section>
+<section><section id="la-surcharge-de-méthodes" class="title-slide slide level1"><h1>La surcharge de méthodes</h1></section><section id="définition" class="slide level2">
+<h2>Définition</h2>
+<p>Il s’agit de définir au sein d’une même classe (ou ses dérivées) une méthode dont le nom existe mais avec une signature différente.</p>
+<pre><code>public double distance(Point p){
+    double dx = this.x - p.x ;
+    double dy = this.y - p.y ;
+    return Math.sqrt(dx*dx + dy*dy);
+}</code></pre>
+</section><section class="slide level2">
+
+<p>On peut aussi surcharger le constructeur.</p>
+<pre><code>Point(){
+    x = 0 ;
+    y = 0 ;
+}</code></pre>
+</section></section>
+<section><section id="héritage" class="title-slide slide level1"><h1>Héritage</h1></section><section id="une-classe-disque1-qui-ressemble-à-point" class="slide level2">
+<h2>Une classe Disque1 qui ressemble à Point…</h2>
+<pre><code>public class Disque1 {
+    double x, y , r;
+    public Disque1(double x, double y) {
+        this.x = x;
+        this.y = y;
+    } 
+    public double distance() {
+        return Math.sqrt(x*x + y*y);
+    }
+    public double distance(Disque1 d) {
+        double dx = x - d.x ;
+        double dy = y - d.y ;
+        return Math.sqrt(x*x + y*y) ;
+    }
+    public double area(){
+        return r*r*Math.PI ;
+    }
+    public double perimeter(){
+        return 2*r*Math.PI ;
+    }
+}</code></pre>
+</section><section id="principe-de-lhéritage" class="slide level2">
+<h2>Principe de l’héritage</h2>
+<p>Trouver un lien naturel entre deux classes :</p>
+<ul>
+<li><p>Permet du factoriser le code</p></li>
+<li><p>On n’implémente que les nouvelles fonctionnalités</p></li>
+</ul>
+</section><section id="implémentation" class="slide level2">
+<h2>Implémentation</h2>
+<p>Grâce au mot clé <strong>extends</strong></p>
+<pre><code>public class Disque2 extends Point{
+    // Attributs nouveaux
+
+    public Disque2(double x,double y)
+    {
+        // Définir un constructeur
+    }
+    
+    // Méthodes nouvelles
+    
+}</code></pre>
+<p>Montrer qu’on peut créer un tableau avec un <strong>Point</strong> et un <strong>Disque2</strong>.</p>
+</section><section class="slide level2">
+
+<p><strong>super</strong> permet l’appel du constructeur de la classe parente</p>
+<pre><code>public class Disque2 extends Point{
+    double r ;
+    public Disque2(double x,double y)
+    {
+        super(x,y);
+        r = 2 ;
+    }
+    public double area(){
+        return r*r*Math.PI ;
+    }
+    public double perimeter(){
+        return 2*r*Math.PI ;
+    }
+    
+}</code></pre>
+</section><section id="constructeur-de-classe-fille" class="slide level2">
+<h2>Constructeur de classe fille</h2>
+<p>La première instruction du constructeur doit être un appel à un autre constructeur de la classe ou de la classe parente. Sinon, le compilateur appelle le constructeur par défaut de la classe parente.</p>
+<p>Cela peut provoquer une erreur de compilation si celui-ci n’existe pas.</p>
+</section><section id="autre-utilité-de-super" class="slide level2">
+<h2>Autre utilité de super</h2>
+<p><strong>super</strong> permet également l’appel à une méthode de la classe mère.</p>
+<pre><code>super.longeur() ;</code></pre>
+</section><section id="mot-clé-instanceof" class="slide level2">
+<h2>Mot clé instanceOf</h2>
+<p>Permet de tester si une instance est une certaine classe. Utile pour utiliser des méthodes de la classe initiale lorsqu’un objet est utilisé sous le type parent.</p>
+<pre><code>class SuperClass{...}
+class SubClass extends SuperClass{...}
+
+SubClass a = new SubClass();
+SuperClass b = new SubClass();
+
+SuperClass[] tab = new SuperClass[2] ;
+tab[0] = a ; tab[1] = b ;
+
+for (int i=0 ; i&lt;2 ;i++){
+  if (tab[i] instanceOf SubClass){
+     ((SubClass)tab[i]).subClassMethod();
+  }
+}</code></pre>
+</section><section id="redéfinition-de-méthode" class="slide level2">
+<h2>Redéfinition de méthode</h2>
+<p>Une classe fille peut éventuellement <strong>redéfinir une méthode</strong>.</p>
+<p>Dans ce cas, elle a <strong>le même prototype</strong> que la méthode de la classe parente.</p>
+</section></section>
+<section><section id="visibilité-des-attributs-et-méthodes" class="title-slide slide level1"><h1>Visibilité des attributs et méthodes</h1></section><section class="slide level2">
+
+<p>Devant un attribut ou une méthode :</p>
+<ul>
+<li><p><strong>private</strong> : accessible uniquement par la classe</p></li>
+<li><p><strong>protected</strong> : accessible par tout descendant de la classe et les classes appartenant au même <em>package</em></p></li>
+<li><p><strong>sans mot clé</strong> : accessible par la classe et les classes appartenant au même <em>package</em></p></li>
+<li><p><strong>public</strong> : accessible par toute les classes</p></li>
+</ul>
+</section><section id="règles-usuelles" class="slide level2">
+<h2>Règles usuelles:</h2>
+<p>Éviter autant que possible l’utilisation de <strong>public</strong>, en particulier sur les variables internes.</p>
+<p>Utiliser des fonctions <strong>getter</strong> et <strong>setter</strong> pour accéder et éventuellement modifier les attributs appropriés.</p>
+</section></section>
+<section><section id="variables-et-méthodes-de-classe" class="title-slide slide level1"><h1>Variables et méthodes de classe</h1></section><section class="slide level2">
+
+<p>Il s’agit de variables et méthodes qui sont partagées par toutes les instances de la classe.</p>
+<p>Utilisation du mot clé <strong>static</strong></p>
+<p>On peut y faire appel directement en accolant le nom à la classe :</p>
+<pre><code>static int variableStatique = 3 ;
+static void methodeStatique();
+
+NomClasse.variableStatique ;
+NomClasse.methodeStatique() ;</code></pre>
+</section><section class="slide level2">
+
+<p>Exemple : compteur de nombre d’instances.</p>
+<pre><code>public class TestStatic
+{
+    public static int i= 0 ;
+    
+    TestStatic(){
+      i++;
+    } 
+}</code></pre>
+</section><section class="slide level2">
+
+<p>Exemple : méthode main d’une classe</p>
+<pre><code>public static void main()</code></pre>
+<p><strong>Une méthode statique ne peut faire appel à des variables d’instances (non statiques)</strong></p>
+</section><section id="retour-sur-le-fil-rouge" class="slide level2">
+<h2>Retour sur le fil rouge</h2>
+<ul>
+<li><p>Si ce n’est déjà fait, mettre à jour de façon cohérente la visibilité des méthodes et des attributs.</p></li>
+<li><p>Faire en sorte que chaque objet instancié ait un identifiant de type <strong>int</strong> différent (numéro d’instance).</p></li>
+<li><p>Définir la fonction <strong>descr</strong> pour qu’elle retourne une chaine de caractères avec le nom de l’objet ainsi que le numéro d’instance.</p></li>
+</ul>
+</section></section>
+<section><section id="la-classe-object" class="title-slide slide level1"><h1>La classe Object</h1></section><section class="slide level2">
+
+<p>En Java, tous les objets <strong>dérivent de la classe Object</strong></p>
+<p>Ils ont héritent donc d’un certain nombre de méthodes dont certaines sont intéressantes à surcharger ou redéfinir.</p>
+</section><section id="tostring" class="slide level2">
+<h2>toString()</h2>
+<p>Il s’agit de la méthode retournant une représentation de l’instance sous forme d’une chaîne de caractère.</p>
+<p>Ainsi, pour tout objet <strong>obj</strong>,</p>
+<pre><code>System.out.prinln(obj) ;</code></pre>
+<p>renvoie</p>
+<pre><code>System.out.println(obj.toString());</code></pre>
+</section><section id="equalsobject-obj" class="slide level2">
+<h2>equals(Object obj)</h2>
+<p>Permet de tester l’égalité entre deux objets.</p>
+<p>Différent de l’opérateur <strong>==</strong> qui vaut <strong>true</strong> lorsque deux objets pointent vers la même référence</p>
+<p>Exemple typique : les chaînes de caractère.</p>
+<p><em>Attention : <strong>redéfinir</strong> equals() pour des classes personnalisées implique de redéfinir la méthode <strong>hashCode()</strong></em></p>
+</section><section id="clone" class="slide level2">
+<h2>clone()</h2>
+<p>Méthode <strong>protected</strong> permet de cloner un objet.</p>
+<p>La classe doit <strong>implémenter l’interface Cloneable</strong></p>
+<pre><code>public class Test implements Cloneable{
+  double x,y,z
+  // Constructeur(s) + autres méthodes
+  public Test clone() throws 
+  CloneNotSupportedException{
+      return (Test)(super.clone());
+  }
+}</code></pre>
+</section><section class="slide level2">
+
+<pre><code>public class Test implements Cloneable{
+  double x,y,z
+  // Constructeur(s) + autres méthodes
+  public Test clone(){ 
+    try{
+      return (Test)(super.clone());
+    }catch(Exception CloneNotSupportedException){
+      System.out.println(&quot;Warning&quot;);
+      return new Test() ; 
+    }
+  }
+}</code></pre>
+</section><section id="retour-sur-le-fil-rouge-1" class="slide level2">
+<h2>Retour sur le fil rouge</h2>
+<ul>
+<li><p>Faire en sorte que la description soit donnée automatiquement avec “System.out.prinln()”</p></li>
+<li><p>Définir la fonction <strong>toXml</strong> qui retourne la chaîne de caractères XML permettant d’encoder le SVG.</p></li>
+</ul>
+</section></section>
+<section><section id="classes-abstraites-et-interfaces" class="title-slide slide level1"><h1>Classes abstraites et interfaces</h1></section><section id="classes-abstraite" class="slide level2">
+<h2>Classes abstraite</h2>
+<p>Une classe abstraite est une classe dont on <strong>interdit la création d’une instance</strong></p>
+<p>Ses classes dérivées peuvent en revanche créer des instances</p>
+<p>Elle est déclarée grâce au mot-clé <strong>abstract</strong></p>
+</section><section class="slide level2">
+
+<p>Une méthode abstraite est une méthode dont on ne donne pas d’implémentation. Seul son <strong>prototype est fourni</strong> :</p>
+<pre><code>abstract protected String methodeAbstraite(int i) ;</code></pre>
+<p>La méthode peut ou non être implémentée dans une des classes filles.</p>
+<p><strong>Une classe qui contient au moins une méthode abstraite est forcément abstraite.</strong></p>
+</section><section id="exemple" class="slide level2">
+<h2>Exemple :</h2>
+<ul>
+<li><p>Imaginons une classe <strong>dog</strong> qui serait très similaire à la classe <strong>cat</strong> mais dont quelques méthodes diffèrent (un chat ne ronronne pas).</p></li>
+<li><p>On peut imaginer une superclass <strong>animal</strong> qui regroupe des attributs communs et des méthodes communes(<strong>name</strong>, <strong>fed</strong>,…)</p></li>
+<li><p>La méthode <strong>listen()</strong> va exister pour <strong>Cat</strong> et <strong>Dog</strong>, mais leur implémentation différera.</p></li>
+</ul>
+</section><section id="interface" class="slide level2">
+<h2>Interface</h2>
+<p>Une interface est <strong>similaire à une classe abstraite</strong> à l’exception qu’elle ne <strong>contient que des méthodes abstraites</strong></p>
+<pre><code>public Interface MonInterface{
+  abstract void methode1() ;
+  abstract String methode2(int i) ;
+  //....
+}</code></pre>
+</section><section class="slide level2">
+
+<p>On dit d’une classe qu’elle <strong>implémente une interface</strong></p>
+<pre><code>public class A extends SuperClass implements MonInterface{
+    // La classe doit fournir le code de methode1 et methode2
+    void methode1(){
+        // Quelques opérations
+    }
+    String methode2(int i){
+      return Integer(i).toString();
+    }
+}</code></pre>
+</section><section id="utilisation" class="slide level2">
+<h2>Utilisation</h2>
+<ul>
+<li><p>Une interface est vue comme un type.</p></li>
+<li><p>Un objet implémentant une interface donnée peut être utilisé dans n’importe quel contexte où le type de l’interface est demandé</p></li>
+<li><p>Compatible avec le mot clé <strong>instanceOf</strong></p></li>
+<li><p><strong>Une classe peut implémenter plusieurs interfaces</strong> (permet en quelque sorte l’héritage multiple)</p></li>
+</ul>
+</section><section id="retour-sur-le-fil-rouge-2" class="slide level2">
+<h2>Retour sur le fil rouge</h2>
+<p>S’inspirer de ces exemples pour complexifier le design :</p>
+<ul>
+<li><p>Se donner la possibilité d’avoir plusieurs formes</p></li>
+<li><p>Plusieurs solutions possibles… Classes abstraites, interface…</p></li>
+</ul>
+<p><link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet"></p>
+<!--
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+ -->
+<p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous"></p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
